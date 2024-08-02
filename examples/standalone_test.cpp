@@ -3,7 +3,7 @@
 
 using namespace BinaryNinja;
 
-extern "C" BINARYNINJAPLUGIN bool CorePluginInit_arch_x86();
+extern "C" BINARYNINJAPLUGIN bool CorePluginInit_arch();
 
 // Taken from: https://stackoverflow.com/a/24315631
 static void ReplaceAll(std::string& s, const std::string& from, const std::string& to)
@@ -73,7 +73,7 @@ std::string tokensText(const std::vector<InstructionTextToken>& tokens)
 
 int main(int argc, char** argv)
 {
-	CorePluginInit_arch_x86();
+	CorePluginInit_arch();
 	auto arch = Architecture::GetByName("x86_64");
 	
 	std::vector<std::vector<uint8_t>> tests;
