@@ -46,23 +46,13 @@ target_sources(binaryninjacore PRIVATE
 target_compile_features(binaryninjacore PUBLIC cxx_std_17)
 
 get_target_property(BINARYNINJA_API_INCLUDE_DIRS binaryninjaapi INTERFACE_INCLUDE_DIRECTORIES)
-get_target_property(BINARYNINJA_API_LIBRARIES binaryninjaapi INTERFACE_LINK_LIBRARIES)
-get_target_property(BINARYNINJA_API_LIBRARY_DIRS binaryninjaapi INTERFACE_LINK_DIRECTORIES)
-get_target_property(BINARYNINJA_API_DEFINITIONS binaryninjaapi INTERFACE_COMPILE_DEFINITIONS)
-
-list(REMOVE_ITEM BINARYNINJA_API_LIBRARIES binaryninjacore)
-
 target_include_directories(binaryninjacore
 	PRIVATE ${BINARYNINJA_API_INCLUDE_DIRS}
 )
+get_target_property(BINARYNINJA_API_LIBRARIES binaryninjaapi INTERFACE_LINK_LIBRARIES)
+list(REMOVE_ITEM BINARYNINJA_API_LIBRARIES binaryninjacore)
 target_link_libraries(binaryninjacore
 	PRIVATE ${BINARYNINJA_API_LIBRARIES}
-)
-target_link_directories(binaryninjacore
-	PRIVATE ${BINARYNINJA_API_LIBRARY_DIRS}
-)
-target_compile_definitions(binaryninjacore
-	PRIVATE ${BINARYNINJA_API_DEFINITIONS}
 )
 
 # Override functions to make the architectures compatible
