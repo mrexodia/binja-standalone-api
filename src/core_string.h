@@ -1,10 +1,12 @@
 #pragma once
 
+#include <string.h>
+
 #include "binaryninjacore.h"
 
 BINARYNINJACOREAPI char* BNAllocString(const char* contents)
 {
-	return _strdup(contents);
+	return strdup(contents);
 }
 
 BINARYNINJACOREAPI void BNFreeString(char* str)

@@ -2,6 +2,8 @@
 
 #include <type_traits>
 
+#include "core_utils.h"
+
 struct BNRef
 {
 	int refCount = 1;

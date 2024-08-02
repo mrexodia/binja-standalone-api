@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "core_utils.h"
 #include "core_string.h"
 
 BINARYNINJACOREAPI void BNShutdown(void) { __debugbreak(); }
