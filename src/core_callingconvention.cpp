@@ -1,4 +1,6 @@
-#pragma once
+// Calling conventions
+
+#include "core_impl.h"
 
 BINARYNINJACOREAPI BNCallingConvention* BNCreateCallingConvention(
 	BNArchitecture* arch, const char* name, BNCustomCallingConvention* cc)

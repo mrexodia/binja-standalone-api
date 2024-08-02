@@ -1,5 +1,4 @@
-#pragma once
-
+// String
 #include <string.h>
 
 #include "binaryninjacore.h"

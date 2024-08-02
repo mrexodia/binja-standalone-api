@@ -1,10 +1,5 @@
 #include "binaryninjacore.h"
 
-#include <string>
-
-#include "core_utils.h"
-#include "core_string.h"
-
 BINARYNINJACOREAPI void BNShutdown(void) { __debugbreak(); }
 BINARYNINJACOREAPI bool BNIsShutdownRequested(void) { __debugbreak(); return {}; }
 
@@ -780,9 +775,6 @@ BINARYNINJACOREAPI bool BNDecode(
 	BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* params, size_t paramCount) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI bool BNEncode(
 	BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* params, size_t paramCount) { __debugbreak(); return {}; }
-
-// Architectures
-#include "core_architecture.h"
 
 // Analysis
 BINARYNINJACOREAPI void BNAddAnalysisOption(BNBinaryView* view, const char* name) { __debugbreak(); }
@@ -1890,9 +1882,6 @@ BINARYNINJACOREAPI bool BNIsApplyingDebugInfo(BNBinaryView* view) { __debugbreak
 
 BINARYNINJACOREAPI BNSymbol* BNImportedFunctionFromImportAddressSymbol(BNSymbol* sym, uint64_t addr) { __debugbreak(); return {}; }
 
-// Low-level IL
-#include "core_llil.h"
-
 // Medium-level IL
 BINARYNINJACOREAPI BNMediumLevelILFunction* BNCreateMediumLevelILFunction(BNArchitecture* arch, BNFunction* func) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI BNMediumLevelILFunction* BNNewMediumLevelILFunctionReference(BNMediumLevelILFunction* func) { __debugbreak(); return {}; }
@@ -2238,9 +2227,6 @@ BINARYNINJACOREAPI BNLanguageRepresentationFunction* BNNewLanguageRepresentation
 BINARYNINJACOREAPI void BNFreeLanguageRepresentationFunction(BNLanguageRepresentationFunction* func) { __debugbreak(); }
 BINARYNINJACOREAPI BNFunction* BNGetLanguageRepresentationOwnerFunction(BNLanguageRepresentationFunction* func) { __debugbreak(); return {}; }
 
-// Types
-#include "core_types.h"
-
 BINARYNINJACOREAPI void BNAddExpressionParserMagicValue(BNBinaryView* view, const char* name, uint64_t value) { __debugbreak(); }
 BINARYNINJACOREAPI void BNRemoveExpressionParserMagicValue(BNBinaryView* view, const char* name) { __debugbreak(); }
 BINARYNINJACOREAPI void BNAddExpressionParserMagicValues(
@@ -2416,9 +2402,6 @@ BINARYNINJACOREAPI BNPluginCommand* BNGetValidPluginCommandsForHighLevelILFuncti
 BINARYNINJACOREAPI BNPluginCommand* BNGetValidPluginCommandsForHighLevelILInstruction(
 	BNBinaryView* view, BNHighLevelILFunction* func, size_t instr, size_t* count) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI void BNFreePluginCommandList(BNPluginCommand* commands) { __debugbreak(); }
-
-// Calling conventions
-#include "core_callingconvention.h"
 
 // Platforms
 BINARYNINJACOREAPI BNPlatform* BNCreatePlatform(BNArchitecture* arch, const char* name) { __debugbreak(); return {}; }
@@ -2836,9 +2819,6 @@ BINARYNINJACOREAPI char* BNGetFileExtension(const char* path) { __debugbreak(); 
 BINARYNINJACOREAPI char** BNGetFilePathsInDirectory(const char* path, size_t* count) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI char* BNAppendPath(const char* path, const char* part) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI void BNFreePath(char* path) { __debugbreak(); }
-
-// Settings APIs
-#include "core_settings.h"
 
 // Metadata APIs
 

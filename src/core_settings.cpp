@@ -1,4 +1,6 @@
+// Settings APIs
 #include "core_ref.h"
+#include <binaryninjacore.h>
 
 #include <map>
 #include "json/json.h"

@@ -1,4 +1,5 @@
-#include "core_architecture.h"
+// Architectures
+#include "core_impl.h"
 
 std::map<std::string, BNArchitecture*> architectures;
 

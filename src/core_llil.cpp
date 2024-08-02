@@ -1,6 +1,6 @@
-#pragma once
+// Low-level IL
 
-#include "core_architecture.h"
+#include "core_impl.h"
 
 BINARYNINJACOREAPI BNLowLevelILFunction* BNCreateLowLevelILFunction(BNArchitecture* arch, BNFunction* func)
 {

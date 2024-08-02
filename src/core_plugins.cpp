@@ -1,8 +1,7 @@
-#pragma once
+// Plugin initialization
 
 #include <binaryninjacore.h>
 
-// Plugin initialization
 extern "C" BINARYNINJAPLUGIN bool CorePluginInit_arch();
 
 static bool g_archInitialized = false;
