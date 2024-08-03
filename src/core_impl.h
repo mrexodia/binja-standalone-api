@@ -4,6 +4,7 @@
 #include "core_ref.h"
 #include "lowlevelilinstruction.h"
 #include <map>
+#include <deque>
 
 struct BNCallingConvention : BNRef
 {
@@ -26,11 +27,12 @@ struct BNRelocationHandler : BNRef
 	~BNRelocationHandler() { callbacks.freeObject(callbacks.context); }
 };
 
-struct BNArchitecture
+struct BNArchitecture : BNRef
 {
 	BNCustomArchitecture callbacks;
 	std::map<std::string, BNCallingConvention*> callingConventions;
 	std::map<std::string, BNRelocationHandler*> relocationHandlers;
+	std::vector<BNFunctionRecognizer> functionRecognizers;
 	BNCallingConvention* defaultCallingConvention = nullptr;
 	BNCallingConvention* cdeclCallingConvention = nullptr;
 	BNCallingConvention* stdcallCallingConvention = nullptr;
@@ -40,6 +42,28 @@ struct BNArchitecture
 	{
 		callbacks.init(callbacks.context, this);
 	}
+};
+
+struct BNPlatform : BNRef
+{
+	BinaryNinja::Ref<BNArchitecture> mArch;
+	std::string mName;
+
+	BNPlatform(BNArchitecture* arch, std::string name) : mArch(arch), mName(std::move(name)) { }
+};
+
+struct BNBasicBlock : BNRef
+{
+	// TODO: should this be BNFunctionGraphType?
+	enum class Type
+	{
+		Disassembly,
+		LLIL,
+		MLIL,
+		HLIL,
+	} type = Type::Disassembly;
+	uint64_t start = 0;
+	uint64_t end = 0;
 };
 
 using ExprId = size_t;
@@ -59,21 +83,38 @@ inline BNLowLevelILLabel labelDecode(uint64_t op)
 	return label;
 }
 
+struct BNFunction : BNRef
+{
+	BinaryNinja::Ref<BNArchitecture> mArch = nullptr;
+	uint32_t mStart = -1;
+
+	BNFunction(BNArchitecture* arch, uint64_t start) : mArch(arch), mStart(start) {}
+};
+
 struct BNLowLevelILFunction : BNRef
 {
-	BNFunction* mOwner = nullptr;
-	BNArchitecture* mArch = nullptr;  // TODO: remove?
+	BinaryNinja::Ref<BNArchitecture> mArch;
+	BinaryNinja::Ref<BNFunction> mOwner;
 	std::vector<BinaryNinja::LowLevelILInstruction> mExpressions;
 	std::vector<ExprId> mInstructions;
 	uint64_t mCurrentAddress = -1;
+	std::deque<BNBasicBlock> mBasicBlockList;
+	BNBasicBlock* mCurrentBasicBlock = nullptr;
 	std::map<uint64_t, BNLowLevelILLabel> mBasicBlocks;
 	std::map<uint64_t, std::string> mDisassembledInstructions;
 	std::vector<std::vector<uint64_t>> mOperandLists;
 
-	explicit BNLowLevelILFunction(BNFunction* owner) : mOwner(owner)
+	explicit BNLowLevelILFunction(BNArchitecture* arch, BNFunction* owner)
+		: mArch(arch)
+		, mOwner(owner)
 	{
+		if (owner != nullptr && owner->mArch.GetPtr() != arch)
+			__debugbreak();
 		mExpressions.emplace_back();
 		mInstructions.push_back(0);
+		mCurrentBasicBlock = &mBasicBlockList.emplace_back();
+		mCurrentBasicBlock->type = BNBasicBlock::Type::LLIL;
+		mCurrentBasicBlock->start = mInstructions.size();
 	}
 
 	BinaryNinja::LowLevelILInstruction* NewExpr()
@@ -119,6 +160,7 @@ struct BNLowLevelILFunction : BNRef
 	{
 		auto instructionIndex = mInstructions.size();
 		mInstructions.push_back(expr);
+		mCurrentBasicBlock->end = mInstructions.size();
 		return instructionIndex;
 	}
 
@@ -614,7 +656,7 @@ struct BNLowLevelILFunction : BNRef
 		{
 			const auto& operandUsage = itr->second;
 			for (size_t usageIndex = 0, operandIndex = 0; usageIndex < operandUsage.size();
-				 usageIndex++, operandIndex++)
+				usageIndex++, operandIndex++)
 			{
 				if (usageIndex > 0)
 					tokens.emplace_back(OperandSeparatorToken, ", ");
@@ -764,6 +806,17 @@ struct BNLowLevelILFunction : BNRef
 			__debugbreak();
 			tokens.emplace_back(TextToken, "(unknown operand usage)");
 		}
+		return tokens;
+	}
+
+	std::vector<BinaryNinja::InstructionTextToken> InstructionText(
+		BNFunction* func, BNArchitecture* arch,
+		size_t i, BNDisassemblySettings* settings)
+	{
+		using namespace BinaryNinja;
+
+		std::vector<InstructionTextToken> tokens;
+		tokens.emplace_back(TextToken, "NOT IMPLEMENTED!");
 		return tokens;
 	}
 };

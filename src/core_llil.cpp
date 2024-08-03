@@ -4,7 +4,7 @@
 
 BINARYNINJACOREAPI BNLowLevelILFunction* BNCreateLowLevelILFunction(BNArchitecture* arch, BNFunction* func)
 {
-	return new BNLowLevelILFunction(func);
+	return new BNLowLevelILFunction(arch, func);
 }
 BINARYNINJACOREAPI BNLowLevelILFunction* BNNewLowLevelILFunctionReference(BNLowLevelILFunction* func)
 {
@@ -16,6 +16,7 @@ BINARYNINJACOREAPI void BNFreeLowLevelILFunction(BNLowLevelILFunction* func)
 }
 BINARYNINJACOREAPI BNFunction* BNGetLowLevelILOwnerFunction(BNLowLevelILFunction* func)
 {
+	func->mOwner->AddRef(); // TODO: correct?
 	return func->mOwner;
 }
 BINARYNINJACOREAPI uint64_t BNLowLevelILGetCurrentAddress(BNLowLevelILFunction* func) { __debugbreak(); return {}; }
@@ -141,13 +142,30 @@ BINARYNINJACOREAPI bool BNGetLowLevelILExprText(BNLowLevelILFunction* func, BNAr
 	*count = vecTokens.size();
 	return !vecTokens.empty(); // TODO
 }
+
 BINARYNINJACOREAPI bool BNGetLowLevelILInstructionText(BNLowLevelILFunction* il, BNFunction* func, BNArchitecture* arch,
-	size_t i, BNDisassemblySettings* settings, BNInstructionTextToken** tokens, size_t* count) { __debugbreak(); return {}; }
+	size_t i, BNDisassemblySettings* settings, BNInstructionTextToken** tokens, size_t* count)
+{
+	auto vecTokens = il->InstructionText(func, arch, i, settings);
+	*tokens = BinaryNinja::InstructionTextToken::CreateInstructionTextTokenList(vecTokens);
+	*count = vecTokens.size();
+	return !vecTokens.empty(); // TODO
+}
 
 BINARYNINJACOREAPI uint32_t BNGetLowLevelILTemporaryRegisterCount(BNLowLevelILFunction* func) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI uint32_t BNGetLowLevelILTemporaryFlagCount(BNLowLevelILFunction* func) { __debugbreak(); return {}; }
 
-BINARYNINJACOREAPI BNBasicBlock** BNGetLowLevelILBasicBlockList(BNLowLevelILFunction* func, size_t* count) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI BNBasicBlock** BNGetLowLevelILBasicBlockList(BNLowLevelILFunction* func, size_t* count)
+{
+	*count = func->mBasicBlockList.size();
+	auto result = new BNBasicBlock*[*count];
+	for (size_t i = 0; i < *count; i++)
+	{
+		// TODO: AddRef?
+		result[i] = &func->mBasicBlockList.at(i);
+	}
+	return result;
+}
 BINARYNINJACOREAPI BNBasicBlock* BNGetLowLevelILBasicBlockForInstruction(BNLowLevelILFunction* func, size_t i) { __debugbreak(); return {}; }
 
 BINARYNINJACOREAPI BNLowLevelILFunction* BNGetLowLevelILSSAForm(BNLowLevelILFunction* func) { __debugbreak(); return {}; }

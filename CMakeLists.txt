@@ -134,4 +134,7 @@ target_sources(arch_all PRIVATE "${CMAKE_BINARY_DIR}/arch_init.cpp")
 if(STANDALONE_BUILD_EXAMPLES)
 	add_executable(standalone_test examples/standalone_test.cpp)
 	target_link_libraries(standalone_test PRIVATE binaryninjaapi arch_all)
+
+	add_executable(llil_parser examples/llil_parser.cpp)
+	target_link_libraries(llil_parser PRIVATE binaryninjaapi arch_all)
 endif()
