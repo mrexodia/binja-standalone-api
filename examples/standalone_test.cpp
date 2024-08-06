@@ -113,7 +113,7 @@ int main(int argc, char** argv)
 		puts("LLIL:");
 
 		auto instructionCount = il->GetInstructionCount();
-		for (size_t i = 1, j = 1; i < instructionCount; i++)
+		for (size_t i = 0, j = 0; i < instructionCount; i++)
 		{
 			auto instr = il->GetInstruction(i);
 			auto exprId = il->GetIndexForInstruction(i);

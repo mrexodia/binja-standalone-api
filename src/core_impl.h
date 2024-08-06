@@ -110,8 +110,6 @@ struct BNLowLevelILFunction : BNRef
 	{
 		if (owner != nullptr && owner->mArch.GetPtr() != arch)
 			__debugbreak();
-		mExpressions.emplace_back();
-		mInstructions.push_back(0);
 		mCurrentBasicBlock = &mBasicBlockList.emplace_back();
 		mCurrentBasicBlock->type = BNBasicBlock::Type::LLIL;
 		mCurrentBasicBlock->start = mInstructions.size();
@@ -123,7 +121,6 @@ struct BNLowLevelILFunction : BNRef
 		mExpressions.emplace_back();
 		auto& expr = mExpressions.back();
 		expr.exprIndex = id;
-		// expr.instructionIndex = -1;
 		return &expr;
 	}
 
