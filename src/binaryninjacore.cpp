@@ -492,6 +492,8 @@ BINARYNINJACOREAPI bool BNIsOffsetCodeSemantics(BNBinaryView* view, uint64_t off
 BINARYNINJACOREAPI bool BNIsOffsetExternSemantics(BNBinaryView* view, uint64_t offset) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI bool BNIsOffsetWritableSemantics(BNBinaryView* view, uint64_t offset) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI uint64_t BNGetNextValidOffset(BNBinaryView* view, uint64_t offset) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI uint64_t BNGetOriginalBase(BNBinaryView* view) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI void BNSetOriginalBase(BNBinaryView* view, uint64_t base) { __debugbreak(); }
 
 BINARYNINJACOREAPI uint64_t BNGetImageBase(BNBinaryView* view) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI uint64_t BNGetOriginalImageBase(BNBinaryView* view) { __debugbreak(); return {}; }
@@ -527,6 +529,10 @@ BINARYNINJACOREAPI bool BNRangeContainsRelocation(BNBinaryView* view, uint64_t a
 BINARYNINJACOREAPI BNRelocation** BNGetRelocationsAt(BNBinaryView* view, uint64_t addr, size_t* count) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI void BNFreeRelocationList(BNRelocation** relocations, size_t count) { __debugbreak(); }
 BINARYNINJACOREAPI void BNFreeRelocationRanges(BNRange* ranges) { __debugbreak(); }
+BINARYNINJACOREAPI BNRange* BNSegmentGetRelocationRanges(BNSegment* segment, size_t* count) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI uint64_t BNSegmentGetRelocationsCount(BNSegment* segment) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI BNRange* BNSegmentGetRelocationRangesAtAddress(BNSegment* segment, uint64_t addr, size_t* count) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI bool BNSegmentRangeContainsRelocation(BNSegment* segment, uint64_t addr, size_t size) { __debugbreak(); return {}; }
 
 BINARYNINJACOREAPI void BNRegisterDataNotification(BNBinaryView* view, BNBinaryDataNotification* notify) { __debugbreak(); }
 BINARYNINJACOREAPI void BNUnregisterDataNotification(BNBinaryView* view, BNBinaryDataNotification* notify) { __debugbreak(); }
@@ -1872,7 +1878,7 @@ BINARYNINJACOREAPI BNType* BNGetTypeLibraryNamedType(BNTypeLibrary* lib, BNQuali
 BINARYNINJACOREAPI BNQualifiedNameAndType* BNGetTypeLibraryNamedObjects(BNTypeLibrary* lib, size_t* count) { __debugbreak(); return {}; }
 BINARYNINJACOREAPI BNQualifiedNameAndType* BNGetTypeLibraryNamedTypes(BNTypeLibrary* lib, size_t* count) { __debugbreak(); return {}; }
 
-BINARYNINJACOREAPI bool BNWriteTypeLibraryToFile(BNTypeLibrary* lib, const char* path) { __debugbreak(); return {}; }
+BINARYNINJACOREAPI void BNWriteTypeLibraryToFile(BNTypeLibrary* lib, const char* path) { __debugbreak(); }
 
 BINARYNINJACOREAPI void BNAddBinaryViewTypeLibrary(BNBinaryView* view, BNTypeLibrary* lib) { __debugbreak(); }
 BINARYNINJACOREAPI BNTypeLibrary* BNGetBinaryViewTypeLibrary(BNBinaryView* view, const char* name) { __debugbreak(); return {}; }
