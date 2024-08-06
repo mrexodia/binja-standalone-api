@@ -294,9 +294,19 @@ Ref<LowLevelILFunction> GetLowLevelILTestFunction(Architecture* arch)
 
 int main(int argc, char* argv[])
 {
-	InitPlugins();
+	if (!InitPlugins())
+	{
+		puts("Failed to initialize plugins");
+		return EXIT_FAILURE;
+	}
 
 	auto arch = Architecture::GetByName("x86_64");
+	if(!arch)
+	{
+		puts("Failed to get x86_64 architecture");
+		return EXIT_FAILURE;
+	}
+
 	auto il = GetLowLevelILTestFunction(arch);
 	if (!il)
 	{
