@@ -109,6 +109,7 @@ int main(int argc, char** argv)
 		arch->GetInstructionText(test.data(), addr, size, tokens);
 		printf("disassembly: %s\n", tokensText(tokens).c_str());
 		auto continueLifting = arch->GetInstructionLowLevelIL(test.data(), addr, size, *il);
+		il->Finalize();
 		//printf("continueLifting: %d\n", continueLifting);
 		puts("LLIL:");
 

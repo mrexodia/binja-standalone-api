@@ -217,6 +217,8 @@ struct BNLowLevelILFunction : BNRef
 		label.resolved = true;
 		label.ref = 0;
 		label.operand = nextInstructionId;
+
+		// TODO: record the highest label here
 	}
 
 	size_t AddOperandList(std::vector<uint64_t> operands)
@@ -224,6 +226,12 @@ struct BNLowLevelILFunction : BNRef
 		auto id = mOperandLists.size();
 		mOperandLists.emplace_back(std::move(operands));
 		return id;
+	}
+
+	void Finalize()
+	{
+		// TODO: do not create the block early
+		// Also add NOPs to the end of the block for labels if necessary
 	}
 
 	BNLowLevelILLabel* GetLabelForAddress(BNArchitecture* arch, ExprId addr)

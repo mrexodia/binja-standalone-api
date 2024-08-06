@@ -75,7 +75,10 @@ BINARYNINJACOREAPI void BNLowLevelILMarkLabel(BNLowLevelILFunction* func, BNLowL
 {
 	func->MarkLabel(*label);
 }
-BINARYNINJACOREAPI void BNFinalizeLowLevelILFunction(BNLowLevelILFunction* func) { __debugbreak(); }
+BINARYNINJACOREAPI void BNFinalizeLowLevelILFunction(BNLowLevelILFunction* func)
+{
+	func->Finalize();
+}
 BINARYNINJACOREAPI void BNGenerateLowLevelILSSAForm(BNLowLevelILFunction* func) { __debugbreak(); }
 
 BINARYNINJACOREAPI void BNPrepareToCopyLowLevelILFunction(BNLowLevelILFunction* func, BNLowLevelILFunction* src) { __debugbreak(); }

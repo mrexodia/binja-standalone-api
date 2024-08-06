@@ -289,6 +289,7 @@ Ref<LowLevelILFunction> GetLowLevelILTestFunction(Architecture* arch)
 	std::vector<uint8_t> test = { 0x48, 0x8B, 0x42, 0x24, 0x78 }; // mov rax, qword ptr [rdx+0x78]
 	size_t size = test.size();
 	arch->GetInstructionLowLevelIL(test.data(), addr, size, *il);
+	il->Finalize();
 	return il;
 }
 
