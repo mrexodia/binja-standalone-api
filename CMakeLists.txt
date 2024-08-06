@@ -128,12 +128,13 @@ set(ARCH_IMPL "${ARCH_IMPL}\treturn true\;\n}\n")
 file(WRITE "${CMAKE_BINARY_DIR}/arch_init.cpp" ${ARCH_PREFIX}${ARCH_IMPL})
 
 target_sources(arch_all PRIVATE "${CMAKE_BINARY_DIR}/arch_init.cpp")
+target_link_libraries(binaryninjacore PRIVATE arch_all)
 
 # Add examples
 if(STANDALONE_BUILD_EXAMPLES)
 	add_executable(standalone_test examples/standalone_test.cpp)
-	target_link_libraries(standalone_test PRIVATE binaryninjaapi arch_all)
+	target_link_libraries(standalone_test PRIVATE binaryninjaapi)
 
 	add_executable(llil_parser examples/llil_parser.cpp)
-	target_link_libraries(llil_parser PRIVATE binaryninjaapi arch_all)
+	target_link_libraries(llil_parser PRIVATE binaryninjaapi)
 endif()
