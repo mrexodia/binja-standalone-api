@@ -12,10 +12,10 @@ option(STANDALONE_ARCH_MIPS "Build the MIPS architecture" OFF)
 option(STANDALONE_ARCH_POWERPC "Build the PowerPC architecture" OFF)
 option(STANDALONE_ARCH_RISCV "Build the RISC-V architecture" OFF)
 
-if(NOT EXISTS "binaryninja-api" OR NOT EXISTS "binaryninja-api/vendor/fmt")
-	if(EXISTS ".git")
+if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/binaryninja-api" OR NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/binaryninja-api/vendor/fmt")
+	if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/.git")
 		execute_process(COMMAND git submodule update --init --recursive
-			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 			COMMAND_ECHO STDOUT
 			COMMAND_ERROR_IS_FATAL ANY
 		)
@@ -68,7 +68,6 @@ function(add_library tgt linkage)
 		target_link_libraries(arch_all PRIVATE ${tgt})
 		get_target_property(arch_list arch_all ARCH_LIST)
 		set_property(TARGET arch_all PROPERTY ARCH_LIST ${arch_list} ${tgt})
-		# TODO: support architectures as dynamic libraries
 		_add_library(${tgt} STATIC ${ARGN})
 		target_compile_definitions(${tgt} PRIVATE
 			CorePluginInit=CorePluginInit_${tgt}
